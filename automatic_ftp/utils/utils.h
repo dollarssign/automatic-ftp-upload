@@ -2,7 +2,7 @@
 
 class c_utils {
 private:
-	std::string check_file_extension( const std::string& file ) const {
+	auto check_file_extension( const std::string& file ) const -> std::string {
 		return file.substr( file.find_last_of( '.' ) + 1 );
 	}
 public:

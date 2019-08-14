@@ -7,13 +7,13 @@
 nlohmann::json json;
 class c_config {
 public:
-	std::string get_config_directory( ) {
+	auto get_config_directory( ) -> std::string {
 		CHAR my_documents[MAX_PATH];
 		SHGetFolderPath( nullptr, CSIDL_PERSONAL, nullptr, SHGFP_TYPE_CURRENT, my_documents );
 
 		return std::string( my_documents ).append( "\\" ).append( "automatic_ftp.cfg" );
 	}
-	void save_config( const std::string& file_directory, const std::string& ftp_hostname, const std::string& ftp_username, const std::string& ftp_password ) {
+	auto save_config( const std::string& file_directory, const std::string& ftp_hostname, const std::string& ftp_username, const std::string& ftp_password ) -> void {
 		std::ofstream output_file = std::ofstream( get_config_directory( ) );
 		if ( !output_file.good( ) )
 			return;
@@ -26,7 +26,7 @@ public:
 		output_file << std::setw( 4 ) << json << std::endl;
 		output_file.close( );
 	}
-	void load_config( ) {
+	auto load_config( ) -> void {
 		auto input_file  = std::ifstream( get_config_directory( ) );
 		if( !input_file.good( ) )
 			return;
@@ -41,7 +41,7 @@ public:
 		input_file.close( );
 
 	}
-	bool run_ask( ) {
+	auto run_ask( ) -> bool {
 		return std::experimental::filesystem::exists( get_config_directory( ) );
 	}
 };
