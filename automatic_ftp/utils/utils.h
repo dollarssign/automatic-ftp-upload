@@ -14,7 +14,7 @@ public:
 		
 		return std::experimental::filesystem::file_size( file_directory );
 	}
-	auto upload_ftp( const std::string& hostname, const std::string& username, const std::string& password, const std::string& file_directory ) const -> void {
+	auto upload_ftp( const std::string& hostname, const std::string& username, const std::string& password, const std::string& file_directory, const std::string& ftp_directory ) const -> void {
 		const auto internet_handle = InternetOpenA( nullptr, INTERNET_OPEN_TYPE_DIRECT, nullptr, nullptr, 0 );
 		if ( !internet_handle ) {
 			std::cout << "internal_handle failed ( c_utils::upload_ftp ) " << std::endl;
@@ -27,7 +27,7 @@ public:
 			return;
 		}
 
-		const auto upload_file = FtpPutFile( internet_connect, file_directory.c_str( ), std::string( "automaticupload." ).append( check_file_extension( file_directory ) ).c_str( ), FTP_TRANSFER_TYPE_BINARY, 0 );
+		const auto upload_file = FtpPutFile( internet_connect, file_directory.c_str( ),  std::string( ftp_directory ).append( "automaticupload." ).append( check_file_extension( file_directory ) ).c_str( ), FTP_TRANSFER_TYPE_BINARY, 0 );
 		if ( !upload_file ) {
 			std::cout << "upload_file failed ( c_utils::upload_ftp ) " << std::endl;
 			return;
@@ -40,7 +40,7 @@ public:
 
 struct c_global {
 public:
-	std::string file_directory, ftp_hostname, ftp_username, ftp_password;
+	std::string file_directory, ftp_hostname, ftp_username, ftp_password, ftp_directory;
 };
 
 extern c_global global;

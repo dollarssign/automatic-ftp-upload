@@ -13,7 +13,7 @@ public:
 
 		return std::string( my_documents ).append( "\\" ).append( "automatic_ftp.cfg" );
 	}
-	auto save_config( const std::string& file_directory, const std::string& ftp_hostname, const std::string& ftp_username, const std::string& ftp_password ) -> void {
+	auto save_config( const std::string& file_directory, const std::string& ftp_hostname, const std::string& ftp_username, const std::string& ftp_password, const std::string& ftp_directory ) -> void {
 		std::ofstream output_file = std::ofstream( get_config_directory( ) );
 		if ( !output_file.good( ) )
 			return;
@@ -22,6 +22,7 @@ public:
 		json["hostname"] = ftp_hostname;
 		json["username"] = ftp_username;
 		json["password"] = ftp_password;
+		json["ftp_directory"] = ftp_directory;
 
 		output_file << std::setw( 4 ) << json << std::endl;
 		output_file.close( );
@@ -37,6 +38,7 @@ public:
 		global.ftp_hostname = json["hostname"].get<std::string>( );
 		global.ftp_username = json["username"].get<std::string>( );
 		global.ftp_password = json["password"].get<std::string>( );
+		global.ftp_directory = json["ftp_directory"].get<std::string>( );
 
 		input_file.close( );
 
